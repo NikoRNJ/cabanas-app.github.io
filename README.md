@@ -1,74 +1,65 @@
-# ModuloHouse - Sitio Web de Cabañas ModularesThis is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cabañas para Francisco.
 
 
 
-Sitio web profesional para promoción de cabañas modulares, construido con Next.js 15, TypeScript, Tailwind CSS y Framer Motion.## Getting Started
+Sitio web profesional para promoción de cabañas modulares, construido con Next.js 15, TypeScript, Tailwind CSS y Framer Motion.
 
 
 
-## 🚀 CaracterísticasFirst, run the development server:
+## 🚀 Características al iniciar:
 
 
 
 ### Frontend```bash
 
-- ✨ **Next.js 15** con App Routernpm run dev
+- ✨ **Next.js 15** con App Router npm run dev
 
-- 🎨 **Tailwind CSS** para estilos# or
+- 🎨 **Tailwind CSS** para estilos
 
 - 🎭 **Framer Motion** para animaciones suavesyarn dev
 
-- 📱 **Diseño 100% Responsive**# or
+- 📱 **Diseño 100% Responsive**
 
 - ⚡ **TypeScript** para type-safetypnpm dev
 
-- 🎯 **SEO Optimizado** con metadata dinámica# or
+- 🎯 **SEO Optimizado** con metadata dinámica
 
-bun dev
 
 ### Backend```
 
 - 📧 **Sistema de Envío de Emails** con Nodemailer
 
-- ✅ **Validación con Zod**Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- ✅ **Validación con Zod**Abrir [http://localhost:3000](http://localhost:3000).
 
 - 🛡️ **Rate Limiting** para protección contra spam
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
 ### Secciones
 
-1. Hero - Banner principal con CTAThis project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Hero - Banner principal con CTA.
 
 2. About - Sobre la compañía
 
-3. Benefits - Ventajas y garantías## Learn More
+3. Benefits - Ventajas y garantías
 
 4. Models - Catálogo de modelos
 
-5. Gallery - Galería con lightboxTo learn more about Next.js, take a look at the following resources:
+5. Gallery - Galería con lightbox
 
 6. Location - Ubicación con mapa
 
-7. Contact - Formulario de contacto- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+7. Contact - Formulario de contacto.
 
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 ## 🛠️ Instalación
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-```bash
 
 # Instalar dependencias## Deploy on Vercel
 
 npm install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
 # Configurar variables de entorno
 
-cp .env.example .env.localCheck out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+cp .env.example .env.local
 
 
 # Ejecutar en desarrollo
