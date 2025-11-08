@@ -53,7 +53,7 @@ Sitio web profesional para promoción de cabañas modulares, construido con Next
 
 ## 🛠️ Instalación
 
-# Instalar dependencias## Deploy on Vercel
+# Instalar dependencias
 
 npm install
 
@@ -81,7 +81,6 @@ SMTP_PASS=tu-contraseña-de-aplicación
 npm run build
 npm start
 
-O despliega en Vercel con un click.
 
 ## 📝 Licencia
 
