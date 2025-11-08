@@ -35,7 +35,7 @@ export const Section: React.FC<ExtendedSectionProps> = ({
     <section
       id={id}
       className={cn(
-        'relative isolate scroll-mt-24 sm:scroll-mt-32 py-24 sm:py-28 lg:py-32 xl:py-36 mt-20 sm:mt-24 first:mt-0',
+        'relative isolate scroll-mt-24 sm:scroll-mt-32 py-32 sm:py-40 lg:py-48 xl:py-56 mt-24 sm:mt-32 lg:mt-40 first:mt-0',
         bgClasses[background],
         className
       )}
@@ -44,7 +44,7 @@ export const Section: React.FC<ExtendedSectionProps> = ({
         className={cn(
           layoutConfig.base,
           layoutConfig.widths[width],
-          'flex w-full flex-col items-center gap-10 sm:gap-12 lg:gap-16',
+          'flex w-full flex-col items-center gap-16 sm:gap-20 lg:gap-24 xl:gap-28',
           containerClassName
         )}
       >
