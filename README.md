@@ -85,6 +85,40 @@ npm start
 
 O despliega en Vercel con un click.
 
+## 🔄 Migración a Backend
+
+Este proyecto incluye documentación completa para migrar el frontend a un backend con API REST.
+
+**📚 Documentación de Migración:**
+
+- **[EXTRACTION_SUMMARY.md](./EXTRACTION_SUMMARY.md)** - **START HERE** - Resumen ejecutivo
+- **[BACKEND_MIGRATION.md](./BACKEND_MIGRATION.md)** - Guía completa de migración
+- **[MIGRATION_DIAGRAM.md](./MIGRATION_DIAGRAM.md)** - Diagramas visuales
+- **[backend-export/](./backend-export/)** - Datos, especificaciones y guías
+
+**¿Qué incluye?**
+- ✅ 34 registros de datos exportados a JSON
+- ✅ 18 endpoints de API documentados (OpenAPI 3.0)
+- ✅ 11 tablas de base de datos con scripts SQL
+- ✅ Guía de implementación con ejemplos de código
+- ✅ Tipos TypeScript para el backend
+
+**Inicio rápido:**
+```bash
+# 1. Lee el resumen
+open EXTRACTION_SUMMARY.md
+
+# 2. Revisa los datos exportados
+ls backend-export/*.json
+
+# 3. Crea la base de datos
+createdb cabanas_db
+psql -d cabanas_db < backend-export/migration-scripts.sql
+
+# 4. Implementa la API usando:
+open backend-export/api-spec.yaml
+```
+
 ## 📝 Licencia
 
 Privado y confidencial.
