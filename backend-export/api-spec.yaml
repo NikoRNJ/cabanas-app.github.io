@@ -1,0 +1,640 @@
+openapi: 3.0.3
+info:
+  title: Cabañas API
+  description: API REST para gestión de cabañas, galería, características y formularios de contacto
+  version: 1.0.0
+  contact:
+    name: Cabañas Coliumo
+    email: contacto@ejemplo.cl
+
+servers:
+  - url: https://api.ejemplo-cabanas.cl/api
+    description: Servidor de producción
+  - url: http://localhost:3000/api
+    description: Servidor de desarrollo
+
+tags:
+  - name: Cabañas
+    description: Operaciones relacionadas con modelos de cabañas
+  - name: Features
+    description: Características de la empresa
+  - name: Benefits
+    description: Beneficios del servicio
+  - name: Gallery
+    description: Gestión de galería de imágenes
+  - name: Config
+    description: Configuración del sitio
+  - name: Contact
+    description: Formulario de contacto
+
+paths:
+  /cabanas:
+    get:
+      tags:
+        - Cabañas
+      summary: Listar todas las cabañas
+      description: Obtiene un listado de todos los modelos de cabañas disponibles
+      responses:
+        '200':
+          description: Lista de cabañas obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Cabana'
+    post:
+      tags:
+        - Cabañas
+      summary: Crear nueva cabaña
+      description: Crea un nuevo modelo de cabaña (requiere autenticación)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CabanaInput'
+      responses:
+        '201':
+          description: Cabaña creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '401':
+          description: No autorizado
+
+  /cabanas/{id}:
+    get:
+      tags:
+        - Cabañas
+      summary: Obtener cabaña por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cabaña encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Cabana'
+        '404':
+          description: Cabaña no encontrada
+    put:
+      tags:
+        - Cabañas
+      summary: Actualizar cabaña
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CabanaInput'
+      responses:
+        '200':
+          description: Cabaña actualizada
+        '401':
+          description: No autorizado
+        '404':
+          description: Cabaña no encontrada
+    delete:
+      tags:
+        - Cabañas
+      summary: Eliminar cabaña
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Cabaña eliminada
+        '401':
+          description: No autorizado
+        '404':
+          description: Cabaña no encontrada
+
+  /cabanas/slug/{slug}:
+    get:
+      tags:
+        - Cabañas
+      summary: Obtener cabaña por slug
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+            example: modelo-uno
+      responses:
+        '200':
+          description: Cabaña encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Cabana'
+        '404':
+          description: Cabaña no encontrada
+
+  /features:
+    get:
+      tags:
+        - Features
+      summary: Obtener características de la empresa
+      responses:
+        '200':
+          description: Lista de características
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CompanyFeature'
+
+  /benefits:
+    get:
+      tags:
+        - Benefits
+      summary: Obtener beneficios del servicio
+      responses:
+        '200':
+          description: Lista de beneficios
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Benefit'
+
+  /gallery:
+    get:
+      tags:
+        - Gallery
+      summary: Listar imágenes de galería
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: [exterior, interior, amenities, landscape]
+          description: Filtrar por categoría
+      responses:
+        '200':
+          description: Lista de imágenes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GalleryImage'
+    post:
+      tags:
+        - Gallery
+      summary: Subir nueva imagen
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                alt:
+                  type: string
+                category:
+                  type: string
+                  enum: [exterior, interior, amenities, landscape]
+      responses:
+        '201':
+          description: Imagen subida exitosamente
+        '401':
+          description: No autorizado
+
+  /gallery/{id}:
+    delete:
+      tags:
+        - Gallery
+      summary: Eliminar imagen
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Imagen eliminada
+        '401':
+          description: No autorizado
+        '404':
+          description: Imagen no encontrada
+
+  /config/site:
+    get:
+      tags:
+        - Config
+      summary: Obtener configuración del sitio
+      responses:
+        '200':
+          description: Configuración obtenida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/SiteConfig'
+    put:
+      tags:
+        - Config
+      summary: Actualizar configuración del sitio
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SiteConfig'
+      responses:
+        '200':
+          description: Configuración actualizada
+        '401':
+          description: No autorizado
+
+  /config/navigation:
+    get:
+      tags:
+        - Config
+      summary: Obtener items de navegación
+      responses:
+        '200':
+          description: Navegación obtenida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/NavItem'
+
+  /contact:
+    post:
+      tags:
+        - Contact
+      summary: Enviar formulario de contacto
+      description: |
+        Envía un mensaje de contacto por email.
+        Incluye rate limiting: máximo 3 solicitudes por hora por IP.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactForm'
+      responses:
+        '200':
+          description: Mensaje enviado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '429':
+          description: Demasiadas solicitudes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Error del servidor
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Cabana:
+      type: object
+      properties:
+        id:
+          type: string
+          example: modelo-uno
+        name:
+          type: string
+          example: Modelo Uno
+        slug:
+          type: string
+          example: modelo-uno
+        description:
+          type: string
+        dimensions:
+          type: object
+          properties:
+            area:
+              type: number
+            bedrooms:
+              type: number
+            bathrooms:
+              type: number
+            floors:
+              type: number
+        features:
+          type: array
+          items:
+            type: string
+        price:
+          type: object
+          properties:
+            amount:
+              type: number
+            currency:
+              type: string
+              example: CLP
+            period:
+              type: string
+              example: noche
+        images:
+          type: object
+          properties:
+            main:
+              type: string
+            gallery:
+              type: array
+              items:
+                type: string
+            thumbnail:
+              type: string
+        specifications:
+          type: array
+          items:
+            type: object
+            properties:
+              label:
+                type: string
+              value:
+                type: string
+        available:
+          type: boolean
+
+    CabanaInput:
+      type: object
+      required:
+        - name
+        - slug
+        - description
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        dimensions:
+          type: object
+        features:
+          type: array
+          items:
+            type: string
+        price:
+          type: object
+        images:
+          type: object
+        specifications:
+          type: array
+        available:
+          type: boolean
+
+    CompanyFeature:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        subtitle:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+
+    Benefit:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+        details:
+          type: string
+
+    GalleryImage:
+      type: object
+      properties:
+        id:
+          type: string
+        src:
+          type: string
+        alt:
+          type: string
+        category:
+          type: string
+          enum: [exterior, interior, amenities, landscape]
+        width:
+          type: number
+        height:
+          type: number
+        thumbnail:
+          type: string
+
+    SiteConfig:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+        ogImage:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        author:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialLink'
+
+    SocialLink:
+      type: object
+      properties:
+        id:
+          type: string
+        platform:
+          type: string
+          enum: [facebook, instagram, twitter, youtube, whatsapp, email]
+        url:
+          type: string
+        label:
+          type: string
+        icon:
+          type: string
+
+    NavItem:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        href:
+          type: string
+        external:
+          type: boolean
+
+    ContactForm:
+      type: object
+      required:
+        - name
+        - email
+        - phone
+        - message
+        - privacyAccepted
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+          pattern: '^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$'
+          example: Juan Pérez
+        email:
+          type: string
+          format: email
+          minLength: 5
+          maxLength: 100
+          example: juan@ejemplo.cl
+        phone:
+          type: string
+          minLength: 10
+          maxLength: 20
+          pattern: '^[\d\s\-\+\(\)]+$'
+          example: '+56912345678'
+        message:
+          type: string
+          minLength: 10
+          maxLength: 1000
+          example: Me gustaría información sobre disponibilidad
+        preferredModel:
+          type: string
+          example: modelo-uno
+        privacyAccepted:
+          type: boolean
+          example: true
+
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+
+    ApiError:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            details:
+              type: object
